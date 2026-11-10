@@ -1,0 +1,50 @@
+cmake_minimum_required(VERSION 3.16)
+project(f2md_evaluator)
+
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3")
+
+option(STATIC_BUILD "Enable static binary linking" OFF)
+
+if(STATIC_BUILD)
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static")
+endif()
+
+# Shared V2X motion primitives (header-only)
+set(V2X_MISC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../libs/v2x-misc)
+
+# This paper's confidence mechanism, shared by both experiments
+set(MECHANISM_DIR ${CMAKE_CURRENT_SOURCE_DIR}/..)
+
+# Include directories
+include_directories(
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}/include
+    ${V2X_MISC_DIR}/include
+    ${MECHANISM_DIR}/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/veins/modules/application/f2md
+    ${CMAKE_CURRENT_SOURCE_DIR}/veins/base/utils
+)
+
+# The mechanism's confidence evaluators (motion primitives are header-only)
+file(GLOB COMMON_SOURCES "${MECHANISM_DIR}/src/*.cc")
+
+# F2MD sources (excluding OMNeT++/Veins simulation and network wrappers)
+file(GLOB_RECURSE F2MD_SOURCES 
+    "${CMAKE_CURRENT_SOURCE_DIR}/veins/modules/application/f2md/mdChecks/*.cc"
+    "${CMAKE_CURRENT_SOURCE_DIR}/veins/modules/application/f2md/mdBase/*.cc"
+    "${CMAKE_CURRENT_SOURCE_DIR}/veins/modules/application/f2md/mdApplications/*.cc"
+    "${CMAKE_CURRENT_SOURCE_DIR}/veins/modules/application/f2md/mdSupport/*.cc"
+)
+
+# Filter out OMNeT++ / Veins GUI / Network wrappers
+
+# Build target: offline_evaluator
+add_executable(offline_evaluator 
+    offline_evaluator.cc 
+    ${COMMON_SOURCES} 
+    ${F2MD_SOURCES} 
+    veins/modules/application/f2md/mdReport/ProtocolEnforcer.cc
+)
+
