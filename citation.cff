@@ -1,0 +1,27 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it using the metadata from this file."
+title: "A Lightweight Mechanism to Attribute Confidence to V2X Messages based on Physical Plausibility"
+authors:
+  - family-names: "D'Angelo"
+    given-names: "Gustavo"
+    affiliation: "Software/Hardware Integration Lab, Federal University of Santa Catarina"
+    email: "gustavo.dangelo@lisha.ufsc.br"
+  - family-names: "Feres"
+    given-names: "João Gabriel"
+    affiliation: "Computer Security Laboratory, Federal University of Santa Catarina"
+    email: "joao.feres@grad.ufsc.br"
+  - family-names: "Fröhlich"
+    given-names: "Antônio Augusto"
+    affiliation: "Software/Hardware Integration Lab, Federal University of Santa Catarina"
+    email: "guto@lisha.ufsc.br"
+keywords:
+  - "C-ITS"
+  - "Misbehavior Detection"
+  - "V2X"
+  - "Plausibility Checks"
+  - "Beta Reputation"
+abstract: "Vehicle-to-Everything (V2X) safety applications rely on received motion vectors being trustworthy. Public Key Infrastructure guarantees message authenticity but not physical truthfulness, so authenticated senders with faulty sensors or malicious intent can still broadcast inconsistent kinematics. We present a lightweight, receiver-side mechanism that attributes confidence to V2X kinematic beacons using only each sender's own message history. It combines a speed-displacement consistency check, an Ordinary Least Squares-fitted Constant Turn Rate and Acceleration predictor with a context-aware tolerance calibrated offline on fault-free data, and a counterless Beta confidence filter. Evaluated offline on eight sensor-fault profiles of the VeReMi Extension dataset, the mechanism achieves a macro F1-score of 0.825 at a macro false-positive rate of 0.06%; an ablation shows that the pairwise consistency check carries most of the detection on these 1 Hz profiles. On a RISC-V Single-Board Computer, the complete pipeline runs in 2.60 microseconds per message, 45x to 58x less than F2MD per-message checks re-executed offline without simulator context. A constant position offset, which preserves the differential kinematics, remains undetectable by checks that compare a sender only with its own history."
+license: "MIT"
+type: software
+version: "1.0.0"
+repository-code: "https://github.com/gustavovonn/A-Lightweight-Mechanism-to-Attribute-Confidence-to-V2X-Messages-based-on-Physical-Plausibility"
